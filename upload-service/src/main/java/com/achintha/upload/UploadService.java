@@ -25,7 +25,7 @@ public class UploadService {
     }
 
     public void cloneRepo(String repoUrl) {
-        String localPath = "C:\\Users\\Hp\\IdeaProjects\\deployment-portal\\upload-service\\src\\main\\resources\\repo_dir";
+        String localPath = "C:\\Users\\Hp\\IdeaProjects\\deployment-portal\\upload-service\\src\\main\\resources\\" + generateFilePathString();
 
         try {
             // Clone the repository
