@@ -29,7 +29,8 @@ public class UploadController {
         String jsonResponse = "deploymentRequest";
 
         log.info("Generated String {}", uploadService.generateFilePathString());
-        uploadService.cloneRepo(deploymentRequest.getUrl());
+//        uploadService.cloneRepo(deploymentRequest.getUrl());
+        uploadService.uploadFile("external-files27c4B");
 
         return new ResponseEntity<>(jsonResponse, HttpStatus.OK);
     }
