@@ -2,6 +2,9 @@ package com.achintha.upload;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
@@ -28,6 +31,13 @@ import java.util.stream.Stream;
 
 @Service
 public class UploadService {
+
+    private final RedisTemplate<String, Object> redisTemplate;
+
+    @Autowired
+    public UploadService(RedisTemplate<String, Object> redisTemplate) {
+        this.redisTemplate = redisTemplate;
+    }
 
     public String generateFilePathString() {
         final int MAX_LENGTH = 5;
@@ -100,6 +110,15 @@ public class UploadService {
 
         }
 
+        }
+
+        public void pushToQueue(String queueName, String message) {
+            redisTemplate.opsForList().leftPush(queueName, message);
+            System.out.println("Message pushed to queue: " + message);
+        }
+
+        public String popFromQueue(String queueName) {
+            return (String) redisTemplate.opsForList().rightPop(queueName);
         }
 
 }
